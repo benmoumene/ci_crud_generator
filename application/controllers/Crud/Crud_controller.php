@@ -57,6 +57,9 @@ class Crud_controller extends CI_Controller
     public function editar($iId)
     {
         $id = (int) $iId;
+        if (empty($id)) {
+            show_error("Debe especificar un identificador", 501);
+        }
         $this->load->view($this->_entidad . "/form_{$this->_entidad}");
     }
 
