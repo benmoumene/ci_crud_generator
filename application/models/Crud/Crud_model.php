@@ -37,6 +37,33 @@ class Crud_model extends CI_Model
         $this->_rpp = static::RPP;
     }
 
+    public function actualizar($iValuePK, $aValues)
+    {
+        $value_pk = (int) $iValuePK;
+        $values = (array) $aValues;
+        $where = array(static::PK => $value_pk);
+        $this->db->update(static::TABLA, $values, $where);
+        $affected_rows = $this->db->affected_rows();
+        return $affected_rows;
+    }
+
+    public function insertar($aValues)
+    {
+        $values = (array) $aValues;
+        $this->db->insert(static::TABLA, $values);
+        $id_insertado = $this->db->insert_id();
+        return $id_insertado;
+    }
+
+    public function get_by_pk($iValue)
+    {
+        $value = (int) $iValue;
+        $where = array(static::PK => $value);
+        $query = $this->db->get_where(static::TABLA, $where);
+        $row = $query->row_array();
+        return $row;
+    }
+
     public function count_all()
     {
         return $this->db->count_all(static::TABLA);
@@ -59,6 +86,11 @@ class Crud_model extends CI_Model
         $query = $this->db->get(static::TABLA);
         $result = $query->result_array();
         return $result;
+    }
+
+    public function get_campo_pk()
+    {
+        return static::PK;
     }
 
 }

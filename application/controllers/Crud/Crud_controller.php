@@ -16,6 +16,8 @@ class Crud_controller extends CI_Controller
     const RUTA_LISTADO = "/";
 
     protected $_entidad;
+    protected $_dataPagina = array();
+    protected $_dataLayout = array();
 
     public function __construct()
     {
@@ -43,15 +45,17 @@ class Crud_controller extends CI_Controller
         $ruta_paginacion = static::RUTA_LISTADO . "{$segmento_ordenar_por}{$segmento_en_sentido}/";
         init_pagination($ruta_paginacion, $total_rows, Crud_model::RPP, Crud_model::PAGE_SEGMENT);
 
-        $dataPagina = array();
-        $dataPagina["registros"] = $rows;
-        $dataPagina["paginador"] = $this->pagination->create_links();
-        $this->load->view($this->_entidad . "/listado_{$this->_entidad}", $dataPagina);
+
+        $this->_dataPagina["registros"] = $rows;
+        $this->_dataPagina["paginador"] = $this->pagination->create_links();
+        $this->load->view($this->_entidad . "/listado_{$this->_entidad}", $this->_dataPagina);
     }
 
     public function nuevo()
     {
-        $this->load->view($this->_entidad . "/form_{$this->_entidad}");
+
+        $this->_dataPagina["data"] = array();
+        $this->load->view($this->_entidad . "/form_{$this->_entidad}", $this->_dataPagina);
     }
 
     public function editar($iId)
@@ -60,12 +64,36 @@ class Crud_controller extends CI_Controller
         if (empty($id)) {
             show_error("Debe especificar un identificador", 501);
         }
-        $this->load->view($this->_entidad . "/form_{$this->_entidad}");
+        $this->_dataPagina["data"] = $this->modelo_entidad->get_by_pk($id);
+        $this->load->view($this->_entidad . "/form_{$this->_entidad}", $this->_dataPagina);
     }
 
     public function guardar()
     {
-
+        if ($this->input->post("guardar") !== FALSE) {
+            $inputs = $this->input->post("inputs");
+            $values = (array) $inputs;
+            $value_pk = 0;
+            $campo_pk = $this->modelo_entidad->get_campo_pk();
+            if (isset($values[$campo_pk]) AND (int) $values[$campo_pk] > 0) {
+                $value_pk = (int) $values[$campo_pk];
+                $id_editando = $value_pk;
+            }
+            unset($values[$campo_pk]);
+            if ($value_pk > 0) {
+                $affected_rows = $this->modelo_entidad->actualizar($value_pk, $values);
+                if ( ! $affected_rows OR $affected_rows < 0) {
+                    show_error("Error al actualizar guardar el registro");
+                }
+            } else {
+                $id_insertado = $this->modelo_entidad->insertar($values);
+                if ($id_insertado <= 0) {
+                    show_error("Error al intentar guardar el registro");
+                }
+                $id_editando = $id_insertado;
+            }
+            redirect("/" . static::ENTIDAD . "/editar/{$id_editando}");
+        }
     }
 
 }

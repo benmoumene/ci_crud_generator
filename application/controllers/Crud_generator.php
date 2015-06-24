@@ -17,13 +17,75 @@ class Crud_generator extends CI_Controller
     private $_nombre_tabla;
     private $_nombre_pk;
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->helper(array("url", "form"));
+        $this->load->database();
+    }
+
     public function index()
     {
-        $this->load->view("crud_generator/form_generator");
+        $tabla = $this->input->get("tabla");
+
+        if (empty($tabla)) {
+            show_error("Falta definir la tabla");
+        }
+        $columnas = $this->db->field_data($tabla);
+
+        $dataLayout = array();
+        $dataPagina = array("columnas" => $columnas);
+        $dataLayout["contenido"] = $this->load->view("crud_generator/form_generator", $dataPagina, TRUE);
+        $this->load->view("layout/crud_generator/crud_generator", $dataLayout);
     }
 
     public function generar()
     {
+        echo "<hr/>" . __FILE__ . " - " . __LINE__ . "<pre>";
+        print_r($this->input->post());
+        echo "</pre><hr/>";
+
+
+        /**
+          Array
+          (
+          [entidad] => ciudad
+          [tabla] => ciudad
+          [en_sentido] => desc
+          [campos] => Array
+          (
+          [id_ciudad] => Array
+          (
+          [tipo_campo] => number
+          )
+
+          [id_provincia] => Array
+          (
+          [tipo_campo] => number
+          )
+
+          [nombre] => Array
+          (
+          [tipo_campo] => text
+          )
+
+          [cod_postal] => Array
+          (
+          [tipo_campo] => text
+          )
+
+          [activo] => Array
+          (
+          [tipo_campo] => select
+          )
+
+          )
+
+          [pk] => id_ciudad
+          [ordenar_por] => id_ciudad
+          [generar] => Generar
+          )
+         */
         if ($this->input->post("generar") !== FALSE) {
             $this->_nombre_controlador = $this->input->post("entidad");
             $this->_nombre_model = $this->input->post("entidad") . "_model";
@@ -32,13 +94,13 @@ class Crud_generator extends CI_Controller
             $this->_ordenar_por_default = $this->input->post("ordenar_por");
             $this->_en_sentido_default = $this->input->post("en_sentido");
 
-            $this->_generar_views();
+            $this->_generar_views($this->input->post("campos"));
             $this->_generar_controller();
             $this->_generar_model();
         }
     }
 
-    private function _generar_views()
+    private function _generar_views($campos)
     {
         $ruta_views = VIEWPATH . "/" . $this->_nombre_controlador;
         if ( ! is_dir($ruta_views)) {
@@ -56,7 +118,51 @@ class Crud_generator extends CI_Controller
             unlink($ruta_form);
         }
         $contenido_form = file_get_contents(VIEWPATH . "/crud_generator/templates/crud_form.tpl");
-        file_put_contents($ruta_form, $contenido_form);
+        $inputs_form = $this->_generar_inputs_form($campos);
+        echo $inputs_form;
+        $search = array("{nombre_controlador}", "{inputs_form}");
+        $replace = array($this->_nombre_controlador, $inputs_form);
+        $form = str_ireplace($search, $replace, $contenido_form);
+        file_put_contents($ruta_form, $form);
+    }
+
+    private function _generar_inputs_form($campos)
+    {
+        $html = "";
+        foreach ($campos as $nombre_campo => $data_campo) {
+
+            if (isset($data_campo["generar_input"]) AND (int) $data_campo["generar_input"] === 1) {
+                $tipo_campo = $data_campo["tipo_campo"];
+                $html.="<div>" . PHP_EOL;
+                if ($tipo_campo !== "hidden") {
+                    $html.="<label>{$nombre_campo}:</label><br/>" . PHP_EOL;
+                }
+
+                if ($tipo_campo === "hidden") {
+                    $html.="<input type='hidden' name='inputs[{$nombre_campo}]' value='<?php echo get_value(\$data,'{$nombre_campo}',0); ?>' />" . PHP_EOL;
+                }
+                if ($tipo_campo === "text") {
+                    $html.="<input type='text' name='inputs[{$nombre_campo}]' value='<?php echo get_value(\$data,'{$nombre_campo}',''); ?>' />" . PHP_EOL;
+                }
+                if ($tipo_campo === "email") {
+                    $html.="<input type='email' name='inputs[{$nombre_campo}]' value='<?php echo get_value(\$data,'{$nombre_campo}',''); ?>' />" . PHP_EOL;
+                }
+                if ($tipo_campo === "number") {
+                    $html.="<input type='number' name='inputs[{$nombre_campo}]' value='<?php echo get_value(\$data,'{$nombre_campo}',''); ?>' />" . PHP_EOL;
+                }
+                if ($tipo_campo === "checkbox") {
+                    $html.="<input type='checkbox' name='inputs[{$nombre_campo}]' value='1' />" . PHP_EOL;
+                }
+                if ($tipo_campo === "select") {
+                    $html.="<select name='inputs[{$nombre_campo}]' ><option value=''>Seleccione...</option></select>" . PHP_EOL;
+                }
+                if ($tipo_campo === "textarea") {
+                    $html.="<textarea name='inputs[{$nombre_campo}]' value='<?php echo get_value(\$data,'{$nombre_campo}',''); ?>' ></textarea>" . PHP_EOL;
+                }
+                $html .="</div>" . PHP_EOL;
+            }
+        }
+        return $html;
     }
 
     private function _generar_controller()
