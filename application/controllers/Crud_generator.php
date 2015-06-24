@@ -134,25 +134,25 @@ class Crud_generator extends CI_Controller
     private function _generar_cabercera_listado($campos)
     {
 
-        $cabecera = "<tr>";
+        $cabecera = "<tr>" . PHP_EOL;
         foreach ($campos as $nombre_campo => $data_campo) {
             if (isset($data_campo["mostrar_listado"]) AND (int) $data_campo["mostrar_listado"] === 1) {
-                $cabecera .="<th>{$nombre_campo}</th>";
+                $cabecera .="<th>{$nombre_campo}</th>" . PHP_EOL;
             }
         }
-        $cabecera .= "</tr>";
+        $cabecera .= "</tr>" . PHP_EOL;
         return $cabecera;
     }
 
     private function _get_fila_listado($campos)
     {
-        $fila = "<tr>";
+        $fila = "<tr>" . PHP_EOL;
         foreach ($campos as $nombre_campo => $data_campo) {
             if (isset($data_campo["mostrar_listado"]) AND (int) $data_campo["mostrar_listado"] === 1) {
-                $fila .="<td><?php echo get_value(\$row, '{$nombre_campo}', ''); ?></td>";
+                $fila .="<td><?php echo get_value(\$row, '{$nombre_campo}', ''); ?></td>" . PHP_EOL;
             }
         }
-        $fila .= "</tr>";
+        $fila .= "</tr>" . PHP_EOL;
         return $fila;
     }
 
