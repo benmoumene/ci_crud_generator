@@ -111,7 +111,12 @@ class Crud_generator extends CI_Controller
             unlink($ruta_listado);
         }
         $contenido_listado = file_get_contents(VIEWPATH . "/crud_generator/templates/crud_listado.tpl");
-        file_put_contents($ruta_listado, $contenido_listado);
+        $cabecera_listado = $this->_generar_cabercera_listado($campos);
+        $fila_listado = $this->_get_fila_listado($campos);
+        $search = array("{cabecera}", "{fila}");
+        $replace = array($cabecera_listado, $fila_listado);
+        $listado = str_ireplace($search, $replace, $contenido_listado);
+        file_put_contents($ruta_listado, $listado);
 
         $ruta_form = "{$ruta_views}/form_" . $this->_nombre_controlador . ".php";
         if (is_file($ruta_form)) {
@@ -119,11 +124,36 @@ class Crud_generator extends CI_Controller
         }
         $contenido_form = file_get_contents(VIEWPATH . "/crud_generator/templates/crud_form.tpl");
         $inputs_form = $this->_generar_inputs_form($campos);
-        echo $inputs_form;
+        //echo $inputs_form;
         $search = array("{nombre_controlador}", "{inputs_form}");
         $replace = array($this->_nombre_controlador, $inputs_form);
         $form = str_ireplace($search, $replace, $contenido_form);
         file_put_contents($ruta_form, $form);
+    }
+
+    private function _generar_cabercera_listado($campos)
+    {
+
+        $cabecera = "<tr>";
+        foreach ($campos as $nombre_campo => $data_campo) {
+            if (isset($data_campo["mostrar_listado"]) AND (int) $data_campo["mostrar_listado"] === 1) {
+                $cabecera .="<th>{$nombre_campo}</th>";
+            }
+        }
+        $cabecera .= "</tr>";
+        return $cabecera;
+    }
+
+    private function _get_fila_listado($campos)
+    {
+        $fila = "<tr>";
+        foreach ($campos as $nombre_campo => $data_campo) {
+            if (isset($data_campo["mostrar_listado"]) AND (int) $data_campo["mostrar_listado"] === 1) {
+                $fila .="<td><?php echo get_value(\$row, '{$nombre_campo}', ''); ?></td>";
+            }
+        }
+        $fila .= "</tr>";
+        return $fila;
     }
 
     private function _generar_inputs_form($campos)

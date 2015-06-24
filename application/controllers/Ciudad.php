@@ -41,7 +41,7 @@ class Ciudad extends Crud_controller
     public function listar($sOrdenarPor = "", $sEnSentido = "")
     {
         if (empty($sOrdenarPor)) {
-            redirect(self::RUTA_LISTADO . "/id_ciudad/desc");
+            redirect(self::RUTA_LISTADO . "/nombre/desc");
         }
         parent::listar($sOrdenarPor, $sEnSentido);
     }

@@ -46,7 +46,7 @@ class Crud_controller extends CI_Controller
         init_pagination($ruta_paginacion, $total_rows, Crud_model::RPP, Crud_model::PAGE_SEGMENT);
 
 
-        $this->_dataPagina["registros"] = $rows;
+        $this->_dataPagina["rows"] = $rows;
         $this->_dataPagina["paginador"] = $this->pagination->create_links();
         $this->load->view($this->_entidad . "/listado_{$this->_entidad}", $this->_dataPagina);
     }

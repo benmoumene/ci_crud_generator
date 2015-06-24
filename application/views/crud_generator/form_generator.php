@@ -16,11 +16,9 @@ $tipos_campo = array("text" => "textarea", "varchar" => "text", "int" => "number
     <input type="text" name="entidad" value="<?php echo $this->input->get("tabla"); ?>" /><br/>
     <label>Tabla</label>
     <input type="text" name="tabla" value="<?php echo $this->input->get("tabla"); ?>" readonly /><br/>
-    <label>En Sentido:</label>
-    <select name='en_sentido'>
-        <option value='desc' selected>DESC</option>
-        <option value='asc'>ASC</option>
-    </select>
+
+    <hr>
+    <h3>Form</h3>
     <table border='1'>
         <tr>
             <td>Generar?</td>
@@ -46,7 +44,37 @@ $tipos_campo = array("text" => "textarea", "varchar" => "text", "int" => "number
                     </select>
                 </td>
                 <td><input type="radio" value="<?php echo $columna["name"]; ?>" name="pk" <?php echo (int) $columna["primary_key"] === 1 ? "checked" : ""; ?> /></td>
-                <td><input type="radio" value="<?php echo $columna["name"]; ?>" name="ordenar_por" <?php echo $es_pk ? "checked" : ""; ?> /></td>
+
+            </tr>
+        <?php endforeach; ?>
+    </table>
+    <hr>
+    <h3>Listado</h3>
+    <label>Ordenar por default en sentido:</label>
+    <select name='en_sentido'>
+        <option value='desc' selected>DESC</option>
+        <option value='asc'>ASC</option>
+    </select>
+    <br />
+    <br />
+    <table border='1'>
+        <tr>
+            <td>Mostrar?</td>
+            <td>Puede ordenar?</td>
+            <td>Nombre</td>
+            <td>Ordenar Por Default</td>
+        </tr>
+        <?php
+        foreach ($columnas as $oColumna):
+            $columna = (array) $oColumna;
+            $es_pk = (int) $columna["primary_key"] === 1;
+            $field_type = $es_pk ? "hidden" : $tipos_campo[$columna["type"]];
+            ?>
+            <tr>
+                <td><input type="checkbox" name='campos[<?php echo $columna["name"]; ?>][mostrar_listado]' value='1' /></td>
+                <td><input type="checkbox" name='campos[<?php echo $columna["name"]; ?>][puede_ordenar]' value='1' /></td>
+                <td><?php echo $columna["name"]; ?></td>
+                <td><input type="radio" value="<?php echo $columna["name"]; ?>" name="ordenar_por" <?php echo (int) $columna["primary_key"] === 1 ? "checked" : ""; ?> /></td>
             </tr>
         <?php endforeach; ?>
     </table>
