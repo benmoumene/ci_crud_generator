@@ -1,6 +1,6 @@
 <?php
 
-require_once APPPATH . '/libraries/AbstractHtmlElement.php';
+require_once APPPATH . '/libraries/Crud/AbstractHtmlElement.php';
 
 /**
  * 23/06/2015
@@ -16,13 +16,18 @@ class InputElement extends AbstractHtmlElement
 
     public function __construct()
     {
-        parent::__construct();
+
     }
 
-    public function render()
+    public function render($name, $id = "")
     {
-        $attributes = $this->_attributes;
-        return '<input type="" name="" value="" id="" ' . $attributes . '/>';
+
+    }
+
+    public function _render($type, $name, $id = "")
+    {
+        $id = !empty($id) ? $id : $name;
+        return "<input type='{$type}' name='{$name}' value='<?php echo element(\$data,'{$name}',''); ?>' id='{$id}' {$this->_attributes} />";
     }
 
 }

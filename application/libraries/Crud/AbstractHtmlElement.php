@@ -9,13 +9,17 @@
  *
  * @author Diego Olmedo
  */
-class AbstractHtmlElement
+abstract class AbstractHtmlElement
 {
-    protected $_attributes;
 
-    public function render()
+    protected $_attributes = "";
+    protected $_name = "";
+    protected $_id = "";
+
+    public function set_attributes($sAttributes)
     {
-
+        $this->_attributes = (string) $sAttributes;
     }
 
+    abstract public function render($name, $id = "");
 }

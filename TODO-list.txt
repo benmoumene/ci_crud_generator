@@ -1,0 +1,9 @@
+- Agregar metodos hooks para overridear los metodos genericos (Ej: _get_valores() en guardar() para poder validar el post)
+- Implementar busquedas genéricas
+- Definir si se va a poder establecer un PK distinto al de la tabla durante la generación
+- Buscar la forma de generar los selects asociados a otras tablas
+- Definir generacion de checkbocks, radio, select (S/N o ENUMS), Imagenes
+- Optimizar refactorizacion generacion de inputs
+
+Ideas:
+- Registrar las generaciones para poder volver a correrlas y tener un control sobre lo que se ya se generó y lo que nó.

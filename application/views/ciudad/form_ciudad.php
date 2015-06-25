@@ -1,22 +1,22 @@
 <form action="/ciudad/guardar" method="POST">
     <div>
-<input type='hidden' name='inputs[id_ciudad]' value='<?php echo element($data,'id_ciudad',0); ?>' />
+<input type='hidden' name='id_ciudad' value='<?php echo element($data,'id_ciudad',''); ?>' id='id_ciudad'  />
 </div>
 <div>
-<label>id_provincia:</label><br/>
-<input type='number' name='inputs[id_provincia]' value='<?php echo element($data,'id_provincia',''); ?>' />
+<label>provincia:</label><br/>
+<input type='number' name='id_provincia' value='<?php echo element($data,'id_provincia',''); ?>' id='id_provincia'  />
 </div>
 <div>
 <label>nombre:</label><br/>
-<input type='text' name='inputs[nombre]' value='<?php echo element($data,'nombre',''); ?>' />
+<input type='email' name='nombre' value='<?php echo element($data,'nombre',''); ?>' id='nombre'  />
 </div>
 <div>
-<label>cod_postal:</label><br/>
-<input type='text' name='inputs[cod_postal]' value='<?php echo element($data,'cod_postal',''); ?>' />
+<label>cod postal:</label><br/>
+<textarea name='cod_postal' id=''><?php echo element($data, 'cod_postal', ''); ?></textarea>
 </div>
 <div>
 <label>activo:</label><br/>
-<input type='text' name='inputs[activo]' value='<?php echo element($data,'activo',''); ?>' />
+<input type='checkbox' name='activo' value='<?php echo element($data,'activo',''); ?>' id='activo'  />
 </div>
 
     <input type='submit' name='guardar' value='Guardar' />

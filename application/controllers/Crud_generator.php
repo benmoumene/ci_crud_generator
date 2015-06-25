@@ -26,12 +26,23 @@ class Crud_generator extends CI_Controller
         $this->load->database();
     }
 
-    public function borrar()
+    public function index()
     {
-        unlink("D:\sitios\ci_crud_generator\application\views\provincias");
+        redirect("/crud_generator/listar_entidades");
     }
 
-    public function index()
+    public function listar_entidades()
+    {
+        $tablas = $this->db->list_tables();
+        $dataLayout = array();
+        $dataPagina = array(
+            "tablas" => $tablas,
+        );
+        $dataLayout["contenido"] = $this->load->view("crud_generator/listado_tablas", $dataPagina, TRUE);
+        $this->load->view("layout/crud_generator/crud_generator", $dataLayout);
+    }
+
+    public function generar_entidad()
     {
         $tabla = $this->input->get("tabla");
 
@@ -65,6 +76,7 @@ class Crud_generator extends CI_Controller
             $this->_en_sentido_default = $this->input->post("en_sentido");
             $this->_campos = $this->input->post("campos");
             $this->_pisar_anterior = $this->input->post("pisar_anterior") === "S";
+
             $this->_generar_views();
             $this->_generar_controller();
             $this->_generar_model();
@@ -142,7 +154,38 @@ class Crud_generator extends CI_Controller
         return $fila;
     }
 
+    public function test_html($tipo)
+    {
+        require_once APPPATH . "/libraries/Crud/HtmlElementFactory.php";
+        $obj = HtmlElementFactory::crear_elemento($tipo);
+        echo "<hr/>" . __FILE__ . " - " . __LINE__ . "<pre>";
+        var_dump($obj);
+        echo "</pre><hr/>";
+        echo $obj->render("foo", "bar");
+        die();
+    }
+
     private function _generar_inputs_form()
+    {
+        $html = "";
+        $campos = $this->_campos;
+        require_once APPPATH . "/libraries/Crud/HtmlElementFactory.php";
+        foreach ($campos as $nombre_campo => $data_campo) {
+            if (element($data_campo, "generar_input", 0) > 0) {
+                $tipo_input = $data_campo["tipo_campo"];
+                $html .="<div>" . PHP_EOL;
+                if ($tipo_input !== "hidden") {
+                    $html .="<label>" . element($data_campo, "label", "") . ":</label><br/>" . PHP_EOL;
+                }
+                $elemento_html = HtmlElementFactory::crear_elemento($tipo_input);
+                $html .= $elemento_html->render($nombre_campo) . PHP_EOL;
+                $html .="</div>" . PHP_EOL;
+            }
+        }
+        return $html;
+    }
+
+    private function _generar_inputs_form_bk()
     {
         $html = "";
         $campos = $this->_campos;
