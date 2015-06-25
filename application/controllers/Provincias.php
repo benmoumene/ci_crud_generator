@@ -41,7 +41,7 @@ class Provincias extends Crud_controller
     public function listar($sOrdenarPor = "", $sEnSentido = "")
     {
         if (empty($sOrdenarPor)) {
-            redirect(self::RUTA_LISTADO . "/orden/asc");
+            redirect(self::RUTA_LISTADO . "/id_provincia/desc");
         }
         parent::listar($sOrdenarPor, $sEnSentido);
     }

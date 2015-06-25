@@ -22,7 +22,7 @@ class Crud_controller extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->helper(array("url", "form"));
+        $this->load->helper(array("url", "form", "crud"));
         $this->_entidad = static::ENTIDAD;
         $this->load->model(array("Crud/Crud_model", "{$this->_entidad}_model" => "modelo_entidad"));
     }
