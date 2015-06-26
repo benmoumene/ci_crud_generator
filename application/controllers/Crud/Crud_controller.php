@@ -48,7 +48,8 @@ class Crud_controller extends CI_Controller
 
         $this->_dataPagina["rows"] = $rows;
         $this->_dataPagina["paginador"] = $this->pagination->create_links();
-        $this->load->view($this->_entidad . "/listado_{$this->_entidad}", $this->_dataPagina);
+        $this->_dataLayout["contenido"] = $this->load->view($this->_entidad . "/listado_{$this->_entidad}", $this->_dataPagina, TRUE);
+        $this->load->view("layout/default/default", $this->_dataLayout);
     }
 
     public function nuevo()
@@ -65,7 +66,8 @@ class Crud_controller extends CI_Controller
             show_error("Debe especificar un identificador", 501);
         }
         $this->_dataPagina["data"] = $this->modelo_entidad->get_by_pk($id);
-        $this->load->view($this->_entidad . "/form_{$this->_entidad}", $this->_dataPagina);
+        $this->_dataLayout["contenido"] = $this->load->view($this->_entidad . "/form_{$this->_entidad}", $this->_dataPagina, TRUE);
+        $this->load->view("layout/default/default", $this->_dataLayout);
     }
 
     public function guardar()

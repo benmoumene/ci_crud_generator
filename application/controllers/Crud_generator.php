@@ -149,10 +149,31 @@ class Crud_generator extends CI_Controller
                 $fila .="<td><?php echo element(\$row, '{$nombre_campo}', ''); ?></td>" . PHP_EOL;
             }
         }
-        $fila .="<td><a href='/{$this->_nombre_controlador}/editar/<?php echo element(\$row, '{$this->_nombre_pk}', 0); ?>'>Editar</a></td>" . PHP_EOL;
+        $fila .="<td><label class='switch switch-success'><input type='checkbox' checked><span></span></label></td>";
+        $fila .="<td class='text-right'>"
+            . "<div class='btn-group'>"
+            . "     <a data-toggle='tooltip' title='editar' class='btn btn-xs btn-default' href='/{$this->_nombre_controlador}/editar/<?php echo element(\$row, '{$this->_nombre_pk}', 0); ?>'><i class='fa fa-cog'></i></a>"
+            . "     <a href='javascript:void(0)' data-toggle='tooltip' title='eliminar' class='btn btn-xs btn-danger'><i class='fa fa-times'></i></a>"
+            . "</div>"
+            . "</td>" . PHP_EOL;
         $fila .= "</tr>" . PHP_EOL;
         return $fila;
     }
+
+    /* BK Original
+      private function _get_fila_listado()
+      {
+      $campos = $this->_campos;
+      $fila = "<tr>" . PHP_EOL;
+      foreach ($campos as $nombre_campo => $data_campo) {
+      if (element($data_campo, "mostrar_listado", 0) > 0) {
+      $fila .="<td><?php echo element(\$row, '{$nombre_campo}', ''); ?></td>" . PHP_EOL;
+      }
+      }
+      $fila .="<td><a href='/{$this->_nombre_controlador}/editar/<?php echo element(\$row, '{$this->_nombre_pk}', 0); ?>'>Editar</a></td>" . PHP_EOL;
+      $fila .= "</tr>" . PHP_EOL;
+      return $fila;
+      } */
 
     public function test_html($tipo)
     {

@@ -1,0 +1,63 @@
+/*NAVBAR*/
+.nav>li h3 { margin-bottom: 0; margin-top: 10px;}
+
+/*SIDEBAR*/
+.sidebar-user { padding-left: 10px; }
+.sidebar-user-name { margin-top: 0;}
+table.dataTable thead > tr > th { padding-left: 3px;}
+
+/*TABLES*/
+.table thead > tr > th { font-size: 15px; }
+.form-group.filtros { padding: 0; margin: 0;}
+.form-group.filtros p.descripcion { margin: 5px 0 0 0; padding: 0;}
+
+#tarifario input { background: none; border: none; padding: 0; max-width: 40px; }
+
+.block.info-alerta { background: #F2F2F2;}
+.block.info-alerta h4 { margin: 0; padding: 0;}
+
+#grilla.table-condensed>tbody>tr>td { padding:0; }
+
+.onclick-menu { position: relative; display: inline-block; cursor:pointer; width:100%; height:100%; }
+.onclick-menu:before { content:""; width:100%; display:block;}
+.onclick-menu:focus { /* clicking on label should toggle the menu */ pointer-events: none; }
+.onclick-menu:focus .onclick-menu-content { /*  opacity is 1 in opened state (see below) */ opacity: 1; visibility: visible; /* don't let pointer-events affect descendant elements */ pointer-events: auto; }
+.onclick-menu-content { position: absolute; z-index: 1; /* use opacity to fake immediate toggle */ opacity: 0; visibility: hidden; transition: visibility 0.5s; background:#FFF; border:1px solid #CCC; left:30px; padding:5px 10px; }
+
+td:last-child .onclick-menu-content { left:-60px; }
+td:nth-last-child(2) .onclick-menu-content { left:-60px; }
+tr:nth-last-child(8) .onclick-menu-content,
+tr:nth-last-child(7) .onclick-menu-content,
+tr:nth-last-child(6) .onclick-menu-content,
+tr:nth-last-child(5) .onclick-menu-content,
+tr:nth-last-child(4) .onclick-menu-content,
+tr:nth-last-child(3) .onclick-menu-content,
+tr:nth-last-child(2) .onclick-menu-content,
+tr:last-child .onclick-menu-content { bottom:-10px; }
+
+.onclick-menu-content li { list-style-type: none; white-space: nowrap; border-bottom:1px solid #CCC; padding:5px 0; text-transform:uppercase; }
+.onclick-menu-content li:last-child { border-bottom:none; }
+.onclick-menu-content a { color:#333 !important; }
+.grilla-referencial li a.disponible,
+.onclick-menu.disponible { background:#0C3; }
+.grilla-referencial li a.reservado,
+.onclick-menu.reservado  { background:#FF0; }
+.grilla-referencial li a.confirmado,
+.onclick-menu.confirmado { background:#F00; }
+.grilla-referencial li a.ocupado,
+.onclick-menu.ocupado { background:#0CF; }
+.grilla-referencial li a.pisada,
+.onclick-menu.pisada { background:#000; }
+.grilla-referencial li a.bloqueada,
+.onclick-menu.bloqueada { background:#999; } 
+
+.onclick-menu.reservado:hover,
+.onclick-menu.confirmado:hover,
+.onclick-menu.ocupado:hover,
+.onclick-menu.pisada:hover,
+.onclick-menu.bloqueada:hover,
+.onclick-menu.disponible:hover { background-color:rgba(0, 0, 0, 0.5);}
+
+.grilla-referencial { margin:0; padding:0; }
+.grilla-referencial li { list-style:none; float:left; padding-right:5px; }
+.grilla-referencial li a { width:15px; height:15px; background:#000; float:left; }

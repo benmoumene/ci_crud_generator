@@ -17,7 +17,7 @@ class Crud_model extends CI_Model
     const ORDENAR_POR_SEGMENT = 3;
     const EN_SENTIDO_SEGMENT = 4;
     const PAGE_SEGMENT = 5;
-    const RPP = 5;
+    const RPP = 15;
 
     protected $_tabla;
     protected $_pk;
