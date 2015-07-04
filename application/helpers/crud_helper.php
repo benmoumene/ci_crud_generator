@@ -68,3 +68,41 @@ if ( ! function_exists('glyphicon')) {
     }
 
 }
+
+if ( ! function_exists("options_select_fk")) {
+
+    /**
+     *
+     * @param array $aConfig un array de configuracion del siguiente tipo
+     * array(
+     *   "table" => La tabla de donde tomar los datos
+     *   "value_field" => El campo que se usará para el option.value [default = 'id_{table}']
+     *   "text_field" => El campo que se usará para option.text [default = 'nombre']
+     *   "where" => Los filtros que se usarán en $this->db->where($where)
+     *   "query" => Un query SQL por si es una query más compleja
+     *              y no alcanzan con los parámetros anteriores para especificar
+     *              los resultados.
+     * )
+     * @return array Un array de options del tipo array('value' => 12, 'text' => 'Foo')
+     */
+    function options_select_fk($aConfig)
+    {
+        $table = element($aConfig, "table");
+        $value_field = element($aConfig, "value_field", "id_{$table}");
+        $text_field = element($aConfig, "text_field", "nombre");
+        $where = element($aConfig, "where", "");
+        $query = element($aConfig, "query", "");
+        $CI = & get_instance();
+        $CI->load->database();
+        if ( ! empty($query)) {
+            $rds = $CI->db->query($query);
+        } else {
+            $CI->db->select("{$value_field} as value, {$text_field} as text");
+            $rds = $CI->db->get_where($table, $where);
+        }
+
+        $rows = $rds->result_array();
+        return $rows;
+    }
+
+}

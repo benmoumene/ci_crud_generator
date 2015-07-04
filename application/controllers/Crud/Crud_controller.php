@@ -54,9 +54,9 @@ class Crud_controller extends CI_Controller
 
     public function nuevo()
     {
-
         $this->_dataPagina["data"] = array();
-        $this->load->view($this->_entidad . "/form_{$this->_entidad}", $this->_dataPagina);
+        $this->_dataLayout["contenido"] =         $this->load->view($this->_entidad . "/form_{$this->_entidad}", $this->_dataPagina, TRUE);
+        $this->load->view("layout/default/default", $this->_dataLayout);
     }
 
     public function editar($iId)

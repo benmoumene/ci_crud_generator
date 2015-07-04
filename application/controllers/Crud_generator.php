@@ -64,9 +64,11 @@ class Crud_generator extends CI_Controller
     public function generar()
     {
         echo "<hr/>" . __FILE__ . " - " . __LINE__ . "<pre>";
-        print_r($this->input->post());
+        $config = $this->input->post("campos[activo][config]");
+        $config_decode = (array) json_decode($config);
+        print_r($config_decode);
         echo "</pre><hr/>";
-
+        die;
         if ($this->input->post("generar") !== FALSE) {
             $this->_nombre_controlador = $this->input->post("entidad");
             $this->_nombre_model = $this->input->post("entidad") . "_model";
@@ -135,7 +137,7 @@ class Crud_generator extends CI_Controller
                 }
             }
         }
-        $cabecera .= "<th>Editar</th>" . PHP_EOL;
+        $cabecera .= "<th class='text-center'>Acciones</th>" . PHP_EOL;
         $cabecera .= "</tr>" . PHP_EOL;
         return $cabecera;
     }
@@ -149,11 +151,10 @@ class Crud_generator extends CI_Controller
                 $fila .="<td><?php echo element(\$row, '{$nombre_campo}', ''); ?></td>" . PHP_EOL;
             }
         }
-        $fila .="<td><label class='switch switch-success'><input type='checkbox' checked><span></span></label></td>";
-        $fila .="<td class='text-right'>"
+        $fila .="<td class='text-center'>"
             . "<div class='btn-group'>"
-            . "     <a data-toggle='tooltip' title='editar' class='btn btn-xs btn-default' href='/{$this->_nombre_controlador}/editar/<?php echo element(\$row, '{$this->_nombre_pk}', 0); ?>'><i class='fa fa-cog'></i></a>"
-            . "     <a href='javascript:void(0)' data-toggle='tooltip' title='eliminar' class='btn btn-xs btn-danger'><i class='fa fa-times'></i></a>"
+            . "     <a data-toggle='tooltip' title='editar' class='btn btn-xs btn-default' href='/{$this->_nombre_controlador}/editar/<?php echo element(\$row, '{$this->_nombre_pk}', 0); ?>'><?php echo glyphicon('edit'); ?></a>"
+            . "     <a href='javascript:void(0)' data-toggle='tooltip' title='eliminar' class='btn btn-xs btn-danger'><?php echo glyphicon('trash'); ?></a>"
             . "</div>"
             . "</td>" . PHP_EOL;
         $fila .= "</tr>" . PHP_EOL;
@@ -194,7 +195,7 @@ class Crud_generator extends CI_Controller
         foreach ($campos as $nombre_campo => $data_campo) {
             if (element($data_campo, "generar_input", 0) > 0) {
                 $tipo_input = $data_campo["tipo_campo"];
-                $html .="<div>" . PHP_EOL;
+                $html .="<div class='form-group'>" . PHP_EOL;
                 if ($tipo_input !== "hidden") {
                     $html .="<label>" . element($data_campo, "label", "") . ":</label><br/>" . PHP_EOL;
                 }
@@ -223,22 +224,22 @@ class Crud_generator extends CI_Controller
                     $html.="<input type='hidden' name='inputs[{$nombre_campo}]' value='<?php echo element(\$data,'{$nombre_campo}',0); ?>' />" . PHP_EOL;
                 }
                 if ($tipo_campo === "text") {
-                    $html.="<input type='text' name='inputs[{$nombre_campo}]' value='<?php echo element(\$data,'{$nombre_campo}',''); ?>' />" . PHP_EOL;
+                    $html.="<input type='text' class='form-control' name='inputs[{$nombre_campo}]' value='<?php echo element(\$data,'{$nombre_campo}',''); ?>' />" . PHP_EOL;
                 }
                 if ($tipo_campo === "email") {
-                    $html.="<input type='email' name='inputs[{$nombre_campo}]' value='<?php echo element(\$data,'{$nombre_campo}',''); ?>' />" . PHP_EOL;
+                    $html.="<input type='email' class='form-control' name='inputs[{$nombre_campo}]' value='<?php echo element(\$data,'{$nombre_campo}',''); ?>' />" . PHP_EOL;
                 }
                 if ($tipo_campo === "number") {
-                    $html.="<input type='number' name='inputs[{$nombre_campo}]' value='<?php echo element(\$data,'{$nombre_campo}',''); ?>' />" . PHP_EOL;
+                    $html.="<input type='number' class='form-control' name='inputs[{$nombre_campo}]' value='<?php echo element(\$data,'{$nombre_campo}',''); ?>' />" . PHP_EOL;
                 }
                 if ($tipo_campo === "checkbox") {
-                    $html.="<input type='checkbox' name='inputs[{$nombre_campo}]' value='1' />" . PHP_EOL;
+                    $html.="<input type='checkbox' class='form-control' name='inputs[{$nombre_campo}]' value='1' />" . PHP_EOL;
                 }
                 if ($tipo_campo === "select") {
-                    $html.="<select name='inputs[{$nombre_campo}]' ><option value=''>Seleccione...</option></select>" . PHP_EOL;
+                    $html.="<select name='inputs[{$nombre_campo}]' class='form-control' ><option value=''>Seleccione...</option></select>" . PHP_EOL;
                 }
                 if ($tipo_campo === "textarea") {
-                    $html.="<textarea name='inputs[{$nombre_campo}]' value='<?php echo element(\$data,'{$nombre_campo}',''); ?>' ></textarea>" . PHP_EOL;
+                    $html.="<textarea name='inputs[{$nombre_campo}]' class='form-control' value='<?php echo element(\$data,'{$nombre_campo}',''); ?>' ></textarea>" . PHP_EOL;
                 }
                 $html .="</div>" . PHP_EOL;
             }
@@ -283,7 +284,8 @@ class Crud_generator extends CI_Controller
             "email" => "input type='email'",
             "hidden" => "input type='hidden'",
             "checkbox" => "input type='checkbox'",
-            "select" => "select"
+            "select" => "select",
+            "select_fk" => "select FK",
         );
         return $tipos_input;
     }
@@ -301,6 +303,7 @@ class Crud_generator extends CI_Controller
             "text" => "textarea",
             "varchar" => "text",
             "int" => "number",
+            "smallint" => "number",
             "char" => "text"
         );
         return $relacion_input_tipo_columna;

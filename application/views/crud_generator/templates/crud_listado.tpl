@@ -1,14 +1,12 @@
 <div class="content-header">
     <div class="header-section">
         <h1>
-            <strong>Parametros:</strong> Adicionales
+            <strong>Entidad: {nombre_controlador}</strong>
+            <a class="btn btn-primary pull-right" href="/{nombre_controlador}/nuevo">Nuevo</a><br>
         </h1>
     </div>
 </div>
 <div class="block full">
-    <div class="block-title">
-        <h2>Adicionales</h2>
-    </div>
     <div class="table-responsive">
         <table id="general-table" class="table table-striped table-vcenter table-hover">
             <thead>

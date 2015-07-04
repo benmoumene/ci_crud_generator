@@ -26,6 +26,7 @@
         <!-- JS locales -->
         <script src="<?php echo asset_url(); ?>/js/core/core.js"></script>
         <script src="<?php echo asset_url(); ?>/js/main.js"></script>
+        <script src="<?php echo asset_url(); ?>/js/crud_generator/crud_generator.js"></script>
         <div id='script_container'></div>
 
     </body>
