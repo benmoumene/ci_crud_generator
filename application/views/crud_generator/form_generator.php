@@ -1,3 +1,11 @@
+<style>
+    .cortar{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+</style>
 <form action="/crud_generator/generar" method="POST" class="form form-horizontal">
     <fieldset>
         <div class="form-group">
@@ -48,7 +56,11 @@
                                 <?php endforeach; ?>
                             </select>
                         </td>
-                        <td><code><textarea style="white-space: pre; font-family: monospace;" class="" name="campos[<?php echo $columna["name"]; ?>][config]" id="config_<?php echo $columna["name"]; ?>">&nbsp;</textarea></code></td>
+                        <td>
+                            <code class="cortar" id="config_mostrar_<?php echo $columna["name"]; ?>"></code>
+                            <a data-tipo-campo="select_fk" data-nombre-campo="<?php echo $columna["name"]; ?>" class="btn btn-xs btn-default js-edit-config" style="display:none;" href="javascript:void(0);"><?php echo glyphicon("edit"); ?></a>
+                            <textarea style="display:none;"name="campos[<?php echo $columna["name"]; ?>][config]" id="config_<?php echo $columna["name"]; ?>">&nbsp;</textarea>
+                        </td>
                         <td><input type="radio" value="<?php echo $columna["name"]; ?>" name="pk" <?php echo $es_pk ? "checked" : ""; ?> /></td>
                     </tr>
                 <?php endforeach; ?>

@@ -60,3 +60,12 @@ function select_all(selector) {
 }
 
 
+function ellipsis(string, max_caracteres) {
+    if (typeof (max_caracteres) === "undefined" || max_caracteres * 1 === 0) {
+        max_caracteres = 50;
+    }
+    if (string.length > max_caracteres)
+        return string.substring(0, max_caracteres) + '...';
+    else
+        return string;
+}
