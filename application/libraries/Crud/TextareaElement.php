@@ -21,7 +21,7 @@ class TextareaElement
 
     public function render($name, $id = "")
     {
-        return "<textarea name='{$name}' id='{$id}'><?php echo element(\$data, '{$name}', ''); ?></textarea>";
+        return "<textarea name='inputs[{$name}]' id='{$id}'><?php echo element(\$data, '{$name}', ''); ?></textarea>";
     }
 
 }

@@ -11,7 +11,7 @@ require_once APPPATH . '/libraries/Crud/AbstractHtmlElement.php';
  *
  * @author Diego Olmedo
  */
-class SelectElement
+class SelectElement extends AbstractHtmlElement
 {
 
     public function __construct()
@@ -21,7 +21,7 @@ class SelectElement
 
     public function render($name, $id = "")
     {
-        return "<select name='{$name}' id='{$id}'><option value=''>Seleccione...</option></select>";
+        return "<select name='inputs[{$name}]' id='{$id}'><option value=''>Seleccione...</option></select>";
     }
 
 }

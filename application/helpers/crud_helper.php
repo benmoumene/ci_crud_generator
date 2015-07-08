@@ -79,6 +79,7 @@ if ( ! function_exists("options_select_fk")) {
      *   "value_field" => El campo que se usará para el option.value [default = 'id_{table}']
      *   "text_field" => El campo que se usará para option.text [default = 'nombre']
      *   "where" => Los filtros que se usarán en $this->db->where($where)
+     *   "order_by" => El orden del listado Ej: array("campo" => '', "sentido" => '')
      *   "query" => Un query SQL por si es una query más compleja
      *              y no alcanzan con los parámetros anteriores para especificar
      *              los resultados.
@@ -92,11 +93,15 @@ if ( ! function_exists("options_select_fk")) {
         $text_field = element($aConfig, "text_field", "nombre");
         $where = element($aConfig, "where", "");
         $query = element($aConfig, "query", "");
+        $order_by = element($aConfig, "order_by", "");
         $CI = & get_instance();
         $CI->load->database();
         if ( ! empty($query)) {
             $rds = $CI->db->query($query);
         } else {
+            if(!empty($order_by)){
+                $CI->db->order_by($order_by["campo"], $order_by["sentido"]);
+            }
             $CI->db->select("{$value_field} as value, {$text_field} as text");
             $rds = $CI->db->get_where($table, $where);
         }

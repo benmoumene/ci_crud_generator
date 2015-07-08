@@ -11,11 +11,11 @@
         <table id="general-table" class="table table-striped table-vcenter table-hover">
             <thead>
                 <tr>
-<th>id_ciudad</th>
-<th>id_provincia</th>
-<th>nombre</th>
-<th>cod_postal</th>
-<th>activo</th>
+<th><?php echo link_orden('/ciudad/listar', 'id_ciudad', 'id_ciudad'); ?></th>
+<th><?php echo link_orden('/ciudad/listar', 'id_provincia', 'id_provincia'); ?></th>
+<th><?php echo link_orden('/ciudad/listar', 'nombre', 'nombre'); ?></th>
+<th><?php echo link_orden('/ciudad/listar', 'cod_postal', 'cod_postal'); ?></th>
+<th><?php echo link_orden('/ciudad/listar', 'activo', 'activo'); ?></th>
 <th class='text-center'>Acciones</th>
 </tr>
 

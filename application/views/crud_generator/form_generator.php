@@ -58,8 +58,9 @@
                         </td>
                         <td>
                             <code class="cortar" id="config_mostrar_<?php echo $columna["name"]; ?>"></code>
-                            <a data-tipo-campo="select_fk" data-nombre-campo="<?php echo $columna["name"]; ?>" class="btn btn-xs btn-default js-edit-config" style="display:none;" href="javascript:void(0);"><?php echo glyphicon("edit"); ?></a>
-                            <textarea style="display:none;"name="campos[<?php echo $columna["name"]; ?>][config]" id="config_<?php echo $columna["name"]; ?>">&nbsp;</textarea>
+                            <a class="btn btn-xs btn-default js-edit-config" style="display:none;" href="javascript:void(0);"><?php echo glyphicon("edit"); ?></a>
+                            <a class="btn btn-xs btn-danger js-delete-config" style="display:none;" href="javascript:void(0);"><?php echo glyphicon("trash"); ?></a>
+                            <textarea style="display:none;"name="campos[<?php echo $columna["name"]; ?>][config]" id="config_<?php echo $columna["name"]; ?>"></textarea>
                         </td>
                         <td><input type="radio" value="<?php echo $columna["name"]; ?>" name="pk" <?php echo $es_pk ? "checked" : ""; ?> /></td>
                     </tr>

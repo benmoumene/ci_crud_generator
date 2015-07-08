@@ -63,12 +63,6 @@ class Crud_generator extends CI_Controller
 
     public function generar()
     {
-        echo "<hr/>" . __FILE__ . " - " . __LINE__ . "<pre>";
-        $config = $this->input->post("campos[activo][config]");
-        $config_decode = (array) json_decode($config);
-        print_r($config_decode);
-        echo "</pre><hr/>";
-        die;
         if ($this->input->post("generar") !== FALSE) {
             $this->_nombre_controlador = $this->input->post("entidad");
             $this->_nombre_model = $this->input->post("entidad") . "_model";
@@ -189,17 +183,29 @@ class Crud_generator extends CI_Controller
 
     private function _generar_inputs_form()
     {
+        echo "<hr/>" . __FILE__ . " - " . __LINE__ . "<pre>";
+        //$config = $this->input->post("campos[id_provincia][config]");
+//        $config_decode = (array) json_decode($config);
+//        print_r($config_decode);
+        print_r($this->_campos);
+        echo "</pre><hr/>";
+        //die;
         $html = "";
         $campos = $this->_campos;
         require_once APPPATH . "/libraries/Crud/HtmlElementFactory.php";
         foreach ($campos as $nombre_campo => $data_campo) {
             if (element($data_campo, "generar_input", 0) > 0) {
                 $tipo_input = $data_campo["tipo_campo"];
+                $config = $data_campo["config"];
                 $html .="<div class='form-group'>" . PHP_EOL;
                 if ($tipo_input !== "hidden") {
                     $html .="<label>" . element($data_campo, "label", "") . ":</label><br/>" . PHP_EOL;
                 }
                 $elemento_html = HtmlElementFactory::crear_elemento($tipo_input);
+                if ( ! empty($config)) {
+                    $config_decode = (array) json_decode($config);
+                    $elemento_html->set_config($config_decode);
+                }
                 $html .= $elemento_html->render($nombre_campo) . PHP_EOL;
                 $html .="</div>" . PHP_EOL;
             }
