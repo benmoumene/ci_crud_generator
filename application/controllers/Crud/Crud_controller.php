@@ -9,7 +9,7 @@
  *
  * @author Diego Olmedo
  */
-class Crud_controller extends CI_Controller
+abstract class Crud_controller extends CI_Controller
 {
 
     const ENTIDAD = "";
@@ -38,8 +38,8 @@ class Crud_controller extends CI_Controller
         $this->load->library(array("pagination"));
         $param_ordenar_por = (string) $sOrdenarPor;
         $param_en_sentido = ! empty($sEnSentido) ? (strtoupper($sEnSentido) === "DESC" ? "desc" : "asc") : "";
-        $rows = $this->modelo_entidad->get_all();
-        $total_rows = $this->modelo_entidad->count_all();
+        $rows = $this->_get_rows();
+        $total_rows = $this->_count_all();
         $segmento_ordenar_por = ( ! empty($param_ordenar_por)) ? "/{$param_ordenar_por}" : "no-definido";
         $segmento_en_sentido = ( ! empty($param_en_sentido)) ? "/{$param_en_sentido}" : "no-definido";
         $ruta_paginacion = static::RUTA_LISTADO . "{$segmento_ordenar_por}{$segmento_en_sentido}/";
@@ -51,11 +51,22 @@ class Crud_controller extends CI_Controller
         $this->_dataLayout["contenido"] = $this->load->view($this->_entidad . "/listado_{$this->_entidad}", $this->_dataPagina, TRUE);
         $this->load->view("layout/default/default", $this->_dataLayout);
     }
+    
+    protected function _get_rows()
+    {
+        $rows = $this->modelo_entidad->get_all();
+        return $rows;
+    }
+
+    protected function _count_all()
+    {
+        return $this->modelo_entidad->count_all();
+    }
 
     public function nuevo()
     {
         $this->_dataPagina["data"] = array();
-        $this->_dataLayout["contenido"] =         $this->load->view($this->_entidad . "/form_{$this->_entidad}", $this->_dataPagina, TRUE);
+        $this->_dataLayout["contenido"] = $this->load->view($this->_entidad . "/form_{$this->_entidad}", $this->_dataPagina, TRUE);
         $this->load->view("layout/default/default", $this->_dataLayout);
     }
 
