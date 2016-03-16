@@ -50,12 +50,13 @@ class Crud_generator extends CI_Controller
             show_error("Falta definir la tabla");
         }
         $columnas = $this->db->field_data($tabla);
-
+        $tablas = $this->db->list_tables();
         $dataLayout = array();
         $dataPagina = array(
             "inputs_disponibles" => $this->_get_tipo_inputs(),
             "relacion_input_tipo_columna" => $this->_get_relacion_input_tipo_columna(),
             "columnas" => $columnas,
+            "tablas" => $tablas,
         );
         $dataLayout["contenido"] = $this->load->view("crud_generator/form_generator", $dataPagina, TRUE);
         $this->load->view("layout/crud_generator/crud_generator", $dataLayout);
@@ -77,6 +78,26 @@ class Crud_generator extends CI_Controller
             $this->_generar_controller();
             $this->_generar_model();
         }
+    }
+
+    public function ajax_get_columnas_tabla()
+    {
+        $post = $this->input->post();
+        $respuesta = array();
+        if ( ! empty($post["tabla"])) {
+            $columnas = $this->db->field_data($post["tabla"]);
+            $options = array();
+            foreach ($columnas as $columna) {
+                $option = array(
+                    "value" => $columna->name,
+                    "text" => $columna->name,
+                );
+                $options[] = $option;
+            }
+            $respuesta = $options;
+        }
+        echo json_encode(array("columnas" => $respuesta));
+        die;
     }
 
     private function _generar_views()

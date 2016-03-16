@@ -42,7 +42,7 @@ class SelectFkElement extends SelectElement
             show_error("No están definidas las configuraciones para el elemento select_fk: {$this->_name}");
         }
         //            array(
-//            * "table" => La tabla de donde tomar los datos
+//            * "table_fk" => La tabla de donde tomar los datos
 //            * "value_field" => El campo que se usará para el option.value [default = 'id_{table}']
 //            * "text_field" => El campo que se usará para option.text [default = 'nombre']
 //            * "where" => Los filtros que se usarán en $this->db->where($where)
@@ -57,7 +57,7 @@ class SelectFkElement extends SelectElement
             $array_to_render .= "'query' => '{$query}'," . PHP_EOL;
         } else {
             $where = str_ireplace("'", '"', $this->_config["where"]);
-            $array_to_render .= "'table' => '{$this->_config["table"]}'," . PHP_EOL;
+            $array_to_render .= "'table' => '{$this->_config["table_fk"]}'," . PHP_EOL;
             $array_to_render .= "'value_field' => '{$this->_config["value_field"]}'," . PHP_EOL;
             $array_to_render .= "'text_field' => '{$this->_config["text_field"]}'," . PHP_EOL;
             $array_to_render .= "'where' => '$where'," . PHP_EOL;

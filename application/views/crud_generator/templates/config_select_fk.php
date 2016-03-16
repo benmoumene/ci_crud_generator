@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="modal-config-select-fk" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="modal-config-select-fk" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -10,15 +10,27 @@
                 <form id="form-config-select-fk" class="form">
                     <div class="form-group">
                         <label>Nombre Tabla Fuente</label>
-                        <input type="text" class="form-control" name="table" id="table" />
+<!--                        <input type="text" class="form-control" name="table" id="table" />-->
+                        <select class="form-control" name="table_fk" id="table_fk">
+                            <?php echo option('', 'Seleccione una tabla'); ?>
+                            <?php foreach ($tablas as $tabla_fk): ?>
+                                <?php echo option($tabla_fk, $tabla_fk); ?>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label>Nombre Campo "value"</label>
-                        <input type="text" class="form-control" name="value_field" id="value_field" />
+<!--                        <input type="text" class="form-control" name="value_field" id="value_field" />-->
+                        <select class="form-control" name="value_field" id="value_field" >
+                            <option value="">Seleccione una tabla</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label>Nombre Campo "text"</label>
-                        <input type="text" class="form-control" name="text_field" id="text_field" />
+<!--                        <input type="text" class="form-control" name="text_field" id="text_field" />-->
+                        <select class="form-control" name="text_field" id="text_field" >
+                            <option value="">Seleccione una tabla</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label>Condici&oacute;n "where"</label>
