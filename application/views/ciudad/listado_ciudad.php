@@ -11,11 +11,10 @@
         <table id="general-table" class="table table-striped table-vcenter table-hover">
             <thead>
                 <tr>
-<th><?php echo link_orden('/ciudad/listar', 'id_ciudad', 'id_ciudad'); ?></th>
-<th><?php echo link_orden('/ciudad/listar', 'id_provincia', 'id_provincia'); ?></th>
-<th><?php echo link_orden('/ciudad/listar', 'nombre', 'nombre'); ?></th>
-<th><?php echo link_orden('/ciudad/listar', 'cod_postal', 'cod_postal'); ?></th>
-<th><?php echo link_orden('/ciudad/listar', 'activo', 'activo'); ?></th>
+<th>id_ciudad</th>
+<th>nombre</th>
+<th>cod_postal</th>
+<th>id_provincia</th>
 <th class='text-center'>Acciones</th>
 </tr>
 
@@ -24,10 +23,9 @@
                 <?php foreach($rows as $row): ?>
                 <tr>
 <td><?php echo element($row, 'id_ciudad', ''); ?></td>
-<td><?php echo element($row, 'id_provincia', ''); ?></td>
 <td><?php echo element($row, 'nombre', ''); ?></td>
 <td><?php echo element($row, 'cod_postal', ''); ?></td>
-<td><?php echo element($row, 'activo', ''); ?></td>
+<td><?php echo element($row, 'id_provincia', ''); ?></td>
 <td class='text-center'><div class='btn-group'>     <a data-toggle='tooltip' title='editar' class='btn btn-xs btn-default' href='/ciudad/editar/<?php echo element($row, 'id_ciudad', 0); ?>'><?php echo glyphicon('edit'); ?></a>     <a href='javascript:void(0)' data-toggle='tooltip' title='eliminar' class='btn btn-xs btn-danger'><?php echo glyphicon('trash'); ?></a></div></td>
 </tr>
 
