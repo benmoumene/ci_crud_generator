@@ -99,13 +99,16 @@ if ( ! function_exists("options_select_fk")) {
         if ( ! empty($query)) {
             $rds = $CI->db->query($query);
         } else {
-            if(!empty($order_by)){
+            if ( ! empty($order_by)) {
                 $CI->db->order_by($order_by["campo"], $order_by["sentido"]);
             }
             $CI->db->select("{$value_field} as value, {$text_field} as text");
-            $rds = $CI->db->get_where($table, $where);
+            if ( ! empty($where)) {
+                $this->db->where($where);
+            }
+            $rds = $CI->db->get($table);
         }
-
+        // echo $CI->db->last_query(); die;
         $rows = $rds->result_array();
         return $rows;
     }
