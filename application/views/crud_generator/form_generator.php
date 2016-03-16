@@ -107,4 +107,4 @@
         </div>
     </fieldset>
 </form>
-<?php $this->load->view("/crud_generator/templates/config_select_fk"); ?>
+<?php $this->load->view("/crud_generator/templates/config_select_fk", array("tablas" => $tablas)); ?>
