@@ -43,7 +43,7 @@ abstract class Crud_controller extends CI_Controller
         $segmento_ordenar_por = ( ! empty($param_ordenar_por)) ? "/{$param_ordenar_por}" : "no-definido";
         $segmento_en_sentido = ( ! empty($param_en_sentido)) ? "/{$param_en_sentido}" : "no-definido";
         $ruta_paginacion = static::RUTA_LISTADO . "{$segmento_ordenar_por}{$segmento_en_sentido}/";
-        init_pagination($ruta_paginacion, $total_rows, Crud_model::RPP, Crud_model::PAGE_SEGMENT);
+        init_pagination($ruta_paginacion, $total_rows, $this->modelo_entidad->get_rpp(), $this->modelo_entidad->get_page_segment());
 
 
         $this->_dataPagina["rows"] = $rows;
