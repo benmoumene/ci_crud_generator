@@ -25,6 +25,7 @@ class Crud_model extends CI_Model
     protected $_page_segment;
     protected $_ordenar_por;
     protected $_en_sentido;
+    protected $_tiene_eliminado_logico = FALSE;
 
     public function __construct()
     {
@@ -35,6 +36,14 @@ class Crud_model extends CI_Model
         $this->_ordenar_por = $this->_pk;
         $this->_en_sentido = "DESC";
         $this->_rpp = static::RPP;
+    }
+
+    public function set_tiene_eliminado_logico($bTieneEliminadoLogico = NULL)
+    {
+        if ($bTieneEliminadoLogico === NULL) {
+            $bTieneEliminadoLogico = $this->db->field_exists('eliminado', static::TABLA);
+        }
+        $this->_tiene_eliminado_logico = (bool) $bTieneEliminadoLogico;
     }
 
     public function actualizar($iValuePK, $aValues)
@@ -66,6 +75,10 @@ class Crud_model extends CI_Model
 
     public function count_all()
     {
+        if ($this->_tiene_eliminado_logico === TRUE) {
+            $this->db->where(array("eliminado" => 0));
+            return $this->db->count_all_results(static::TABLA);
+        }
         return $this->db->count_all(static::TABLA);
     }
 
@@ -79,6 +92,9 @@ class Crud_model extends CI_Model
         if ( ! empty($param_en_sentido)) {
             $this->_en_sentido = strtoupper($param_en_sentido);
         }
+        if ($this->_tiene_eliminado_logico === TRUE) {
+            $this->db->where(array("eliminado" => 0));
+        }
         $pagina = $this->uri->segment(static::PAGE_SEGMENT);
         $offset = (($pagina > 0 ? $pagina : 1 ) * $this->_rpp) - $this->_rpp;
         $this->db->order_by($this->_ordenar_por, $this->_en_sentido);
@@ -91,6 +107,16 @@ class Crud_model extends CI_Model
     public function get_campo_pk()
     {
         return static::PK;
+    }
+
+    public function get_rpp()
+    {
+        return static::RPP;
+    }
+
+    public function get_page_segment()
+    {
+        return static::PAGE_SEGMENT;
     }
 
 }
