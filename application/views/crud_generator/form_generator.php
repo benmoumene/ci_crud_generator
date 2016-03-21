@@ -109,3 +109,4 @@
     </fieldset>
 </form>
 <?php $this->load->view("/crud_generator/templates/config_select_fk", array("tablas" => $tablas)); ?>
+<?php $this->load->view("/crud_generator/templates/config_select"); ?>
