@@ -6,7 +6,7 @@
     }
 
 </style>
-<form action="/crud_generator/generar" method="POST" class="form form-horizontal">
+<form action="/crud_generator/generar" method="POST" class="form form-horizontal" >
     <fieldset>
         <div class="form-group">
             <label>Nombre Entidad (controlador)</label>
@@ -42,15 +42,16 @@
                 foreach ($columnas as $oColumna):
                     $columna = (array) $oColumna;
                     $es_pk = (int) $columna["primary_key"] === 1;
-                    $tipo_input_default = $es_pk ? "hidden" : element($relacion_input_tipo_columna, $columna["type"]);
+                    $tipo_input_default = $es_pk ? "hidden" : element($relacion_input_tipo_columna, $columna["type"], "");
                     $destacar_tr = $es_pk ? " info " : "";
                     ?>
-                    <tr class="js-contenedor-columna <?php echo $destacar_tr; ?>">
-                        <td><input type="checkbox" class="js-chk-generar-campo" name='campos[<?php echo $columna["name"]; ?>][generar_input]' value='1' <?php echo $es_pk ? "checked readonly" : ""; ?> /></td>
+                    <tr class="js-contenedor-columna <?php echo $destacar_tr; ?>" >
+                        <td><input type="checkbox" class="js-chk-generar-campo" name='campos[<?php echo $columna["name"]; ?>][generar_input]' value='1' <?php echo $es_pk ? "checked readonly" : ""; ?>  /></td>
                         <td><input type='text' name='campos[<?php echo $columna["name"]; ?>][label]' value='<?php echo $columna["name"]; ?>' /></td>
-                        <td class="js-nombre-columna"><?php echo $columna["name"]; ?></td>
+                        <td class="js-nombre-columna" ><?php echo $columna["name"]; ?></td>
                         <td>
                             <select class="js-select-tipo-campo" name='campos[<?php echo $columna["name"]; ?>][tipo_campo]'>
+                                <?php echo option("", "Seleccione...", $tipo_input_default); ?>
                                 <?php foreach ($inputs_disponibles as $value => $text): ?>
                                     <?php echo option($value, $text, $tipo_input_default); ?>
                                 <?php endforeach; ?>
@@ -60,7 +61,7 @@
                             <code class="cortar" id="config_mostrar_<?php echo $columna["name"]; ?>"></code>
                             <a class="btn btn-xs btn-default js-edit-config" style="display:none;" href="javascript:void(0);"><?php echo glyphicon("edit"); ?></a>
                             <a class="btn btn-xs btn-danger js-delete-config" style="display:none;" href="javascript:void(0);"><?php echo glyphicon("trash"); ?></a>
-                            <textarea style="display:none;"name="campos[<?php echo $columna["name"]; ?>][config]" id="config_<?php echo $columna["name"]; ?>"></textarea>
+                            <textarea style="display:none;"name="campos[<?php echo $columna["name"]; ?>][config]" id="config_<?php echo $columna["name"]; ?>" ></textarea>
                         </td>
                         <td><input type="radio" value="<?php echo $columna["name"]; ?>" name="pk" <?php echo $es_pk ? "checked" : ""; ?> /></td>
                     </tr>

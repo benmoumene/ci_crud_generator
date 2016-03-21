@@ -20,7 +20,6 @@ $(document).on("click.BorrarConfig", ".js-delete-config", function (e) {
     $("#config_mostrar_" + nombre_columna).html('');
     $(this).hide();
     $contenedor.find(".js-edit-config").hide();
-
 });
 
 
@@ -29,8 +28,9 @@ $(document).on('change.CambiarTablaFk', "#table_fk", function (e) {
     if (typeof (tabla) !== "undefined" && tabla !== "") {
         cargar_columnas_tabla_fk(tabla);
     }
-})
-function mostrar_modal($contenedor) {
+});
+
+function mostrar_modal_slt_fk($contenedor) {
 
     cargar_data_select_fk($contenedor);
     var $modal = $("#modal-config-select-fk");

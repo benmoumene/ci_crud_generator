@@ -42,10 +42,33 @@ class Crud_generator extends CI_Controller
         $this->load->view("layout/crud_generator/crud_generator", $dataLayout);
     }
 
+    public function ajax_get_data_entidad()
+    {
+        $post = $this->input->post();
+//        echo "<hr/><pre>";
+//        print_r($post);
+//        echo "</pre><hr/>";
+//        die();
+        if ( ! empty($post["entidad"])) {
+            $tabla = $post["entidad"];
+            $columnas = $this->db->field_data($tabla);
+            $tablas = $this->db->list_tables();
+            $dataPagina = array(
+                "inputs_disponibles" => $this->_get_tipo_inputs(),
+                "relacion_input_tipo_columna" => $this->_get_relacion_input_tipo_columna(),
+                "columnas" => $columnas,
+                "tablas" => $tablas,
+            );
+            echo json_encode($dataPagina);
+            die;
+        }
+        echo "NO DATA";
+    }
+
     public function generar_entidad()
     {
         $tabla = $this->input->get("tabla");
-
+        $usar_ng = (int) $this->input->get("ng") === 1;
         if (empty($tabla)) {
             show_error("Falta definir la tabla");
         }
@@ -58,7 +81,18 @@ class Crud_generator extends CI_Controller
             "columnas" => $columnas,
             "tablas" => $tablas,
         );
-        $dataLayout["contenido"] = $this->load->view("crud_generator/form_generator", $dataPagina, TRUE);
+        if ($usar_ng) {
+            $dataPagina = array(
+                "inputs_disponibles" => $this->_get_tipo_inputs(),
+                "relacion_input_tipo_columna" => $this->_get_relacion_input_tipo_columna(),
+                "columnas" => array(),
+                "tablas" => $tablas,
+            );
+            $dataLayout["contenido"] = $this->load->view("crud_generator/form_generator_ng", $dataPagina, TRUE);
+        } else {
+            $dataLayout["contenido"] = $this->load->view("crud_generator/form_generator", $dataPagina, TRUE);
+        }
+
         $this->load->view("layout/crud_generator/crud_generator", $dataLayout);
     }
 
