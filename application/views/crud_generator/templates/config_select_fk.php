@@ -14,7 +14,7 @@
                         <select class="form-control" name="table_fk" id="table_fk">
                             <?php echo option('', 'Seleccione una tabla'); ?>
                             <?php foreach ($tablas as $tabla_fk): ?>
-                                <?php echo option($tabla_fk, $tabla_fk); ?>
+                                <?php echo option($tabla_fk, $tabla_fk, ''); ?>
                             <?php endforeach; ?>
                         </select>
                     </div>

@@ -1,10 +1,12 @@
 $(document).on("change.SeleccionTipoInput", ".js-select-tipo-campo", function (e) {
     var $row_columna = $(this).parents(".js-contenedor-columna");
     if ($(this).val() === "select_fk") {
-        mostrar_modal_slt_fk($row_columna);
+        var config = new ConfigSelectFk($row_columna);
+        config.init();
+        config.mostrar_modal();
+        //mostrar_modal_slt_fk($row_columna);
     }
     if ($(this).val() === "select") {
-        console.info('disparado');
         var config = new ConfigSelect($row_columna);
         config.init();
         config.mostrar_modal();
@@ -18,7 +20,10 @@ $(document).on("click.EditarConfig", ".js-edit-config", function (e) {
     var $row_columna = $(this).parents(".js-contenedor-columna");
     var tipo_campo = $row_columna.find(".js-select-tipo-campo").val();
     if (tipo_campo === "select_fk") {
-        mostrar_modal_slt_fk($row_columna);
+//        mostrar_modal_slt_fk($row_columna);
+        var config = new ConfigSelectFk($row_columna);
+        config.init();
+        config.mostrar_modal();
     }
     if (tipo_campo === "select") {
         var config = new ConfigSelect($row_columna);
@@ -40,13 +45,13 @@ $(document).on("click.BorrarConfig", ".js-delete-config", function (e) {
     e.stopPropagation();
 });
 
-
-$(document).on('change.CambiarTablaFk', "#table_fk", function (e) {
-    var tabla = $(this).val();
-    if (typeof (tabla) !== "undefined" && tabla !== "") {
-        cargar_columnas_tabla_fk(tabla);
-    }
-});
+//
+//$(document).on('change.CambiarTablaFk', "#table_fk", function (e) {
+//    var tabla = $(this).val();
+//    if (typeof (tabla) !== "undefined" && tabla !== "") {
+//        cargar_columnas_tabla_fk(tabla);
+//    }
+//});
 
 /**
  function mostrar_modal_slt($contenedor) {
