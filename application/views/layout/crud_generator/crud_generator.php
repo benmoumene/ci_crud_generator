@@ -36,6 +36,7 @@
         <script src="<?php echo asset_url(); ?>/js/main.js"></script>
         <script src="<?php echo asset_url(); ?>/js/crud_generator/crud_generator.js"></script>
         <script src="<?php echo asset_url(); ?>/js/crud_generator/lib_config/config_select.js" type="text/javascript"></script>
+        <script src="<?php echo asset_url(); ?>/js/crud_generator/lib_config/config_select_fk.js" type="text/javascript"></script>
         <div id='script_container'></div>
 
     </body>

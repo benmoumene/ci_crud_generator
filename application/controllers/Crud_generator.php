@@ -68,7 +68,6 @@ class Crud_generator extends CI_Controller
     public function generar_entidad()
     {
         $tabla = $this->input->get("tabla");
-        $usar_ng = (int) $this->input->get("ng") === 1;
         if (empty($tabla)) {
             show_error("Falta definir la tabla");
         }
@@ -81,18 +80,7 @@ class Crud_generator extends CI_Controller
             "columnas" => $columnas,
             "tablas" => $tablas,
         );
-        if ($usar_ng) {
-            $dataPagina = array(
-                "inputs_disponibles" => $this->_get_tipo_inputs(),
-                "relacion_input_tipo_columna" => $this->_get_relacion_input_tipo_columna(),
-                "columnas" => array(),
-                "tablas" => $tablas,
-            );
-            $dataLayout["contenido"] = $this->load->view("crud_generator/form_generator_ng", $dataPagina, TRUE);
-        } else {
-            $dataLayout["contenido"] = $this->load->view("crud_generator/form_generator", $dataPagina, TRUE);
-        }
-
+        $dataLayout["contenido"] = $this->load->view("crud_generator/form_generator", $dataPagina, TRUE);
         $this->load->view("layout/crud_generator/crud_generator", $dataLayout);
     }
 
@@ -239,6 +227,10 @@ class Crud_generator extends CI_Controller
     private function _generar_inputs_form()
     {
         echo "<hr/>" . __FILE__ . " - " . __LINE__ . "<pre>";
+        //echo "<hr/><pre>";
+       // print_r($this->input->post());
+        //echo "</pre><hr/>";
+        //die();
         //$config = $this->input->post("campos[id_provincia][config]");
 //        $config_decode = (array) json_decode($config);
 //        print_r($config_decode);

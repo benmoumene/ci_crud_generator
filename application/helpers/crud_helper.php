@@ -104,7 +104,7 @@ if ( ! function_exists("options_select_fk")) {
             }
             $CI->db->select("{$value_field} as value, {$text_field} as text");
             if ( ! empty($where)) {
-                $this->db->where($where);
+                $CI->db->where($where);
             }
             $rds = $CI->db->get($table);
         }
