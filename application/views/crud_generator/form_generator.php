@@ -17,11 +17,43 @@
             <input class="form-control" type="text" name="tabla" value="<?php echo $this->input->get("tabla"); ?>" readonly /><br/>
         </div>
         <div class="form-group">
-            <label>Sobrescribir archivos generados:</label>
-            <select name="pisar_anterior">
-                <option value="N" >NO</option>
-                <option value="S" selected>S&Iacute;</option>
-            </select>
+            <h3>Sobrescribir archivos generados</h3>
+            <div class="row">
+                <div class="col-md-3">
+                    <label>Listado:</label>
+                    <br>
+                    <select name="pisar_view_listado_anterior">
+                        <option value="N" >NO</option>
+                        <option value="S" selected>S&Iacute;</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label>Formulario:</label>
+                    <br>
+                    <select name="pisar_view_form_anterior">
+                        <option value="N" >NO</option>
+                        <option value="S" selected>S&Iacute;</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label>Controlador:</label>
+                    <br>
+                    <select name="pisar_controller_anterior">
+                        <option value="N" >NO</option>
+                        <option value="S" selected>S&Iacute;</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label>Modelo:</label>
+                    <br>
+                    <select name="pisar_model_anterior">
+                        <option value="N" >NO</option>
+                        <option value="S" selected>S&Iacute;</option>
+                    </select>
+                </div>
+            </div>
+
+
         </div>
         <hr>
         <h3>Formulario Nuevo / Editar</h3>
