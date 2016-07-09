@@ -35,7 +35,7 @@ class Generador_Controlador extends AbstractGenerador
         $search = array("{nombre_controlador}", "{nombre_entidad}", "{ordenar_por_default}", "{en_sentido_default}");
         $replace = array(ucfirst($nombre_controlador), $nombre_controlador, $ordenar_por_default, $en_sentido_default);
         $contenido = str_ireplace($search, $replace, $tpl);
-        $ruta_controller = APPPATH . "/controllers/" . ucfirst($nombre_controlador) . "_new.php";
+        $ruta_controller = APPPATH . "/controllers/" . ucfirst($nombre_controlador) . ".php";
         $this->_reemplazar_archivo($ruta_controller, $pisar_controller);
         try {
             file_put_contents($ruta_controller, $contenido);

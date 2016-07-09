@@ -13,6 +13,7 @@ require_once APPPATH . "/libraries/Crud/Entities/BE_Config_Entidad.php";
  */
 class Crud_generator extends CI_Controller
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -81,10 +82,12 @@ class Crud_generator extends CI_Controller
     public function generar()
     {
         if ($this->input->post("generar") !== FALSE) {
+            $alias_tabla = $this->input->post("alias_tabla");
             $oConfigEntidad = new BE_Config_Entidad();
             $oConfigEntidad->nombre_controlador = $this->input->post("entidad");
             $oConfigEntidad->nombre_model = $this->input->post("entidad") . "_model";
             $oConfigEntidad->nombre_tabla = $this->input->post("tabla");
+            $oConfigEntidad->alias_tabla = empty($alias_tabla) ? $this->_nombre_tabla : $alias_tabla;
             $oConfigEntidad->nombre_pk = $this->input->post("pk");
             $oConfigEntidad->ordenar_por_default = $this->input->post("ordenar_por");
             $oConfigEntidad->en_sentido_default = $this->input->post("en_sentido");
@@ -140,6 +143,7 @@ class Crud_generator extends CI_Controller
         echo $obj->render("foo", "bar");
         die();
     }
+
     private function _generar_controller(BE_Config_Entidad $oConfigEntidad)
     {
         $this->load->library("/Crud/Generadores/Generador_Controlador", "generador_controlador");
@@ -200,4 +204,5 @@ class Crud_generator extends CI_Controller
         );
         return $relacion_input_tipo_columna;
     }
+
 }

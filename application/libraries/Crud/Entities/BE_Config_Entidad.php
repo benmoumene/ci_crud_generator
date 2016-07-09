@@ -15,6 +15,7 @@ class BE_Config_Entidad
     public $nombre_controlador;
     public $nombre_model;
     public $nombre_tabla;
+    public $alias_tabla;
     public $nombre_pk;
     public $campos;
     public $en_sentido_default;

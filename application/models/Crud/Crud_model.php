@@ -101,17 +101,17 @@ class Crud_model extends CI_Model
         if ($this->_tiene_eliminado_logico === TRUE) {
             $this->db->where(array("eliminado" => 0));
         }
-        $this->_set_where();
+        $this->_set_where_sentencia();
         return $this->db->count_all_results(static::TABLA);
     }
 
     public function get_all()
     {
 
-        $this->_set_where();
+        //$this->_set_where_sentencia();
         $query = $this->_get_query_listado();
         $result = $query->result_array();
-        //echo $this->db->last_query();die;
+        //echo $this->db->last_query(); die;
         return $result;
     }
 
@@ -136,18 +136,43 @@ class Crud_model extends CI_Model
         return array();
     }
 
-
     protected function _get_query_listado()
     {
-        $this->_set_columnas_orden();
+        $this->_set_select_sentencia();
+        $this->_set_joins_sentencia();
+        $this->_set_where_sentencia();
+        $this->_set_order_by_sentencia();
+        $this->_set_limit_sentencia();
+        $alias_tabla = static::ALIAS;
+        $alias = ! empty($alias_tabla) ? " AS " . static::ALIAS : "";
+        $query = $this->db->get(static::TABLA . $alias);
+        return $query;
+    }
+
+    protected function _set_joins_sentencia()
+    {
+
+    }
+
+    protected function _set_select_sentencia()
+    {
+
+    }
+
+    protected function _set_limit_sentencia()
+    {
         $pagina = $this->uri->segment(static::PAGE_SEGMENT);
         $offset = (($pagina > 0 ? $pagina : 1 ) * $this->_rpp) - $this->_rpp;
+        $this->db->limit($this->_rpp, $offset);
+    }
+
+    protected function _set_order_by_sentencia()
+    {
+        $this->_set_columnas_orden();
+
         if ( ! empty($this->_ordenar_por)) {
             $this->db->order_by($this->_ordenar_por, $this->_en_sentido);
         }
-        $this->db->limit($this->_rpp, $offset);
-        $query = $this->db->get(static::TABLA);
-        return $query;
     }
 
     protected function _set_columnas_orden()
@@ -176,7 +201,7 @@ class Crud_model extends CI_Model
 
     }
 
-    protected function _set_where()
+    protected function _set_where_sentencia()
     {
         if ($this->_tiene_eliminado_logico === TRUE) {
             $this->db->where(array("eliminado" => 0));
