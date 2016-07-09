@@ -48,6 +48,7 @@ abstract class Crud_controller extends CI_Controller
 
         $this->_dataPagina["rows"] = $rows;
         $this->_dataPagina["cant_registros"] = $total_rows;
+        $this->_dataPagina["RPP"] = $this->modelo_entidad->get_rpp();
         $this->_dataPagina["paginador"] = $this->pagination->create_links();
         $this->_dataLayout["contenido"] = $this->load->view($this->_entidad . "/listado_{$this->_entidad}", $this->_dataPagina, TRUE);
         $this->load->view("layout/default/default", $this->_dataLayout);

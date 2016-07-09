@@ -2,7 +2,6 @@
 
 require_once APPPATH . '/libraries/Crud/Generadores/AbstractGenerador.php';
 
-
 /**
  * 09-jul-2016
  * File: Generador_listado.php
@@ -14,7 +13,6 @@ require_once APPPATH . '/libraries/Crud/Generadores/AbstractGenerador.php';
  */
 class Generador_Listado extends AbstractGenerador
 {
-
 
     public function generar($ruta_views)
     {
@@ -43,9 +41,10 @@ class Generador_Listado extends AbstractGenerador
         foreach ($campos as $nombre_campo => $data_campo) {
             $mostrar_listado = element($data_campo, "mostrar_listado", 0) > 0;
             $puede_ordenar = element($data_campo, "puede_ordenar", 0) > 0;
+            $nombre_columna = $this->_get_columna_en_recordset($data_campo["columna"]);
             if ($mostrar_listado) {
                 if ($puede_ordenar) {
-                    $cabecera .="<th><?php echo link_orden('$ruta_listado', '$nombre_campo', '" . element($data_campo, "label", "") . "'); ?></th>" . PHP_EOL;
+                    $cabecera .="<th><?php echo link_orden('$ruta_listado', '$nombre_columna', '" . element($data_campo, "label", "") . "'); ?></th>" . PHP_EOL;
                 } else {
                     $cabecera .="<th>" . element($data_campo, "label", "") . "</th>" . PHP_EOL;
                 }
@@ -63,8 +62,10 @@ class Generador_Listado extends AbstractGenerador
         $nombre_pk = $this->_oConfigEntidad->nombre_pk;
         $fila = "<tr>" . PHP_EOL;
         foreach ($campos as $nombre_campo => $data_campo) {
+
+            $nombre_columna = $this->_get_columna_en_recordset($data_campo["columna"]);
             if (element($data_campo, "mostrar_listado", 0) > 0) {
-                $fila .="<td><?php echo element(\$row, '{$nombre_campo}', ''); ?></td>" . PHP_EOL;
+                $fila .="<td><?php echo element(\$row, '{$nombre_columna}', ''); ?></td>" . PHP_EOL;
             }
         }
         $fila .="<td class='text-center'>"
@@ -75,6 +76,19 @@ class Generador_Listado extends AbstractGenerador
             . "</td>" . PHP_EOL;
         $fila .= "</tr>" . PHP_EOL;
         return $fila;
+    }
+
+    /**
+     * @TODO: Refactorizar esto. Está medio sucio sacar el punto del alias
+     * Devuelve el nombre de la columna tal como está guardado en el recordset $rows
+     * Ejemplo: Si en la sentencia dice usu.id_usuario, $rows va a estar $rows["id_usuario"]
+     * Esta función limpia el "usu." para poder usarlo con element($rows, "id_usuario", 0)
+     * @param string $sColumnaEnSelect La columna como fue seteada en el Select
+     * @return type
+     */
+    private function _get_columna_en_recordset($sColumnaEnSelect)
+    {
+        return substr($sColumnaEnSelect, strpos($sColumnaEnSelect, ".") + 1);
     }
 
 }

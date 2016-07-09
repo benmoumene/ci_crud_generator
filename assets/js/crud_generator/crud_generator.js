@@ -1,5 +1,5 @@
 $(function () {
-  $('.js-tooltip').tooltip()
+    $('.js-tooltip').tooltip()
 })
 $(document).on("change.SeleccionTipoInput", ".js-select-tipo-campo", function (e) {
     var $row_columna = $(this).parents(".js-contenedor-columna");
@@ -47,6 +47,18 @@ $(document).on("click.BorrarConfig", ".js-delete-config", function (e) {
     $contenedor.find(".js-edit-config").hide();
     e.stopPropagation();
 });
+
+$(document).on("click.ToggleHabilitarJoin", ".js-toggle-habilitar-join", function (e) {
+    e.preventDefault();
+    var columna = $(this).data("columna");
+    var $td_join = $("#td-join-" + columna)
+    var $slt_join_tabla = $td_join.find(".js-slt-tabla-join");
+    var $ipt_alias_tabla_join = $td_join.find(".js-ipt-alias-tabla-join");
+    var estado_actual = $slt_join_tabla.prop("disabled");
+    $slt_join_tabla.prop("disabled", !estado_actual);
+    $slt_join_tabla.prop("disabled", !estado_actual);
+    $ipt_alias_tabla_join.prop("disabled", !estado_actual);
+})
 
 function mostrar_modal_slt_fk($contenedor) {
 
@@ -106,3 +118,4 @@ function cargar_columnas_tabla_fk(tabla) {
         }
     });
 }
+

@@ -32,7 +32,7 @@ class Generador_Form extends AbstractGenerador
     private function _generar_inputs_form()
     {
         $campos = $this->_oConfigEntidad->campos;
-        echo "<hr/>" . __FILE__ . " - " . __LINE__ . "<pre>";
+        //echo "<hr/>" . __FILE__ . " - " . __LINE__ . "<pre>";
         //echo "<hr/><pre>";
         // print_r($this->input->post());
         //echo "</pre><hr/>";
@@ -40,8 +40,8 @@ class Generador_Form extends AbstractGenerador
         //$config = $this->input->post("campos[id_provincia][config]");
 //        $config_decode = (array) json_decode($config);
 //        print_r($config_decode);
-        print_r($campos);
-        echo "</pre><hr/>";
+//        print_r($campos);
+//        echo "</pre><hr/>";
         //die;
         $html = "";
         require_once APPPATH . "/libraries/Crud/HtmlElementFactory.php";

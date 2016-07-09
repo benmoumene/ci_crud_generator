@@ -29,7 +29,9 @@ class Generador_Modelo extends AbstractGenerador
         $nombre_pk = $this->_oConfigEntidad->nombre_pk;
         $pisar_model = $this->_oConfigEntidad->pisar_model_anterior;
         $custom_methods = "";
-        $custom_methods .= $this->_generar_custom_joins();
+        $custom_methods .= $this->_generar_custom_select() . PHP_EOL;
+        $custom_methods .= $this->_generar_custom_joins() . PHP_EOL;
+        $custom_methods .= $this->_generar_custom_where() . PHP_EOL;
         $tpl = file_get_contents(VIEWPATH . "/crud_generator/templates/crud_model.tpl");
         $search = array("{nombre_model}", "{nombre_tabla}", "{alias_tabla}", "{nombre_pk}", "{custom_methods}");
         $replace = array($nombre_model, $nombre_tabla, $alias_tabla, $nombre_pk, $custom_methods);
@@ -59,6 +61,45 @@ class Generador_Modelo extends AbstractGenerador
     }
 CUSTOM;
         return $custom_join_method;
+    }
+
+    protected function _generar_custom_select()
+    {
+        $columnas = array();
+        $select_string = '$this->db->select("';
+        foreach ($this->_oConfigEntidad->campos as $campo_listado) {
+            if ((int) element($campo_listado, "mostrar_listado", 0) === 1) {
+                $columnas[] = $campo_listado["columna"];
+            }
+        }
+        $select_string.= implode(", ", $columnas);
+        $select_string.='", FALSE);';
+
+        $custom_select_method = <<<CUSTOM
+    protected function _set_select_sentencia()
+    {
+        {$select_string}
+    }
+CUSTOM;
+
+        return $custom_select_method;
+    }
+
+    protected function _generar_custom_where()
+    {
+        $custom_where_method = "";
+        if ( ! empty($this->_oConfigEntidad->listado_custom_where)) {
+            $where_string = '$this->db->where("';
+            $where_string .=$this->_oConfigEntidad->listado_custom_where;
+            $where_string .='");';
+            $custom_where_method = <<<CUSTOM
+    protected function _set_where_sentencia()
+    {
+        {$where_string}
+    }
+CUSTOM;
+        }
+        return $custom_where_method;
     }
 
     protected function _armar_sentencia_join($aDataJoin)

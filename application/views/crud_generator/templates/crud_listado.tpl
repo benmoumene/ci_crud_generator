@@ -46,7 +46,7 @@
             Se han encontrado <strong class="text-danger">
                 <?php echo $cant_registros; ?></strong> remitos
         </span>
-        <span class="help-block pull-right">Mostrando <?php echo Remito_model::RPP; ?> remitos por p&aacute;gina</span>
+        <span class="help-block pull-right">Mostrando <?php echo $RPP; ?> remitos por p&aacute;gina</span>
         <div style="border-top: 1px solid black;"></div>
         <table id="general-table" class="table table-striped table-vcenter table-hover">
             <thead>

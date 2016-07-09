@@ -20,6 +20,7 @@ class BE_Config_Entidad
     public $campos;
     public $en_sentido_default;
     public $ordenar_por_default;
+    public $listado_custom_where;
 
     public $pisar_view_form_anterior;
     public $pisar_view_listado_anterior;

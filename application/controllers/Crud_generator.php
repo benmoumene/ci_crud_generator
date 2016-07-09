@@ -92,6 +92,9 @@ class Crud_generator extends CI_Controller
             $oConfigEntidad->ordenar_por_default = $this->input->post("ordenar_por");
             $oConfigEntidad->en_sentido_default = $this->input->post("en_sentido");
             $oConfigEntidad->campos = $this->input->post("campos");
+            $oConfigEntidad->listado_custom_where = $this->input->post("listado_custom_where");
+
+
             $oConfigEntidad->pisar_view_anterior = $this->input->post("pisar_view_anterior") === "S";
             $oConfigEntidad->pisar_controller_anterior = $this->input->post("pisar_controller_anterior") === "S";
             $oConfigEntidad->pisar_model_anterior = $this->input->post("pisar_model_anterior") === "S";
@@ -137,11 +140,11 @@ class Crud_generator extends CI_Controller
     {
         require_once APPPATH . "/libraries/Crud/HtmlElementFactory.php";
         $obj = HtmlElementFactory::crear_elemento($tipo);
-        echo "<hr/>" . __FILE__ . " - " . __LINE__ . "<pre>";
-        var_dump($obj);
-        echo "</pre><hr/>";
-        echo $obj->render("foo", "bar");
-        die();
+//        echo "<hr/>" . __FILE__ . " - " . __LINE__ . "<pre>";
+//        var_dump($obj);
+//        echo "</pre><hr/>";
+//        echo $obj->render("foo", "bar");
+//        die();
     }
 
     private function _generar_controller(BE_Config_Entidad $oConfigEntidad)

@@ -120,6 +120,10 @@ $alias_tabla = substr($this->input->get("tabla"), 0, 3);
             </select>
         </div>
         <div class="form-group">
+            <label>Custom Where:</label><br>
+            <textarea class="form-control" name="listado_custom_where" rows="4" cols="50" placeholder="activo = 1 AND eliminado = 0 AND alias.id > 1" ></textarea>
+        </div>
+        <div class="form-group">
             <table class="table table-hover table-striped table-bordered">
                 <tr>
                     <th>
@@ -151,22 +155,23 @@ $alias_tabla = substr($this->input->get("tabla"), 0, 3);
                     $es_pk = (int) $columna["primary_key"] === 1;
                     $destacar_tr = $es_pk ? "class='info'" : "";
                     ?>
-                    <tr <?php echo $destacar_tr; ?>>
+                    <tr <?php echo $destacar_tr; ?> id="tr-listado-<?php echo $columna["name"]; ?>">
                         <td><input type="checkbox" class="js-chk-mostrar-campo" name='campos[<?php echo $columna["name"]; ?>][mostrar_listado]' value='1' /></td>
-                        <td><?php echo $columna["name"]; ?></td>
+                        <td id="td-columna-<?php echo $columna["name"]; ?>"><input type='text' name='campos[<?php echo $columna["name"]; ?>][columna]' value='<?php echo "{$alias_tabla}.{$columna["name"]}"; ?>' /></td>
                         <td><input type='text' name='campos[<?php echo $columna["name"]; ?>][label]' value='<?php echo $columna["name"]; ?>' /></td>
-                        <td>
-                            <select class="form-control" name='campos[<?php echo $columna["name"]; ?>][join][tabla]'>
+                        <td id="td-join-<?php echo $columna["name"]; ?>">
+                            <select class="form-control js-slt-tabla-join" name='campos[<?php echo $columna["name"]; ?>][join][tabla]' disabled>
                                 <?php echo option("", "N/A", ""); ?>
                                 <?php foreach ($tablas as $tabla): ?>
                                     <?php echo option($tabla, $tabla, ""); ?>
                                 <?php endforeach; ?>
                             </select>
                             <label>Alias</label>
-                            <input class="form-control" type="text" name='campos[<?php echo $columna["name"]; ?>][join][alias_tabla]' value="" placeholder="AS cli" />
+                            <input class="form-control js-ipt-alias-tabla-join" type="text" name='campos[<?php echo $columna["name"]; ?>][join][alias_tabla]' value="" placeholder="AS alias" disabled />
+                            <a href="javascript:void(0);" class="js-toggle-habilitar-join" data-columna="<?php echo $columna["name"]; ?>"><?php echo glyphicon("edit");?></a>
                         </td>
 
-                        <td><input class="form-control" type="text" name='campos[<?php echo $columna["name"]; ?>][join][on]' value="" placeholder="cli.id_cliente = <?php echo "{$alias_tabla}.{$columna["name"]}"; ?>" /><br/></td>
+                        <td><input class="form-control" type="text" name='campos[<?php echo $columna["name"]; ?>][join][on]' value="" placeholder="alias.columna = <?php echo "{$alias_tabla}.{$columna["name"]}"; ?>" /><br/></td>
                         <td>
                             <select class="form-control" name='campos[<?php echo $columna["name"]; ?>][join][tipo_join]'>
                                 <?php echo option("LEFT", "LEFT", "LEFT"); ?>

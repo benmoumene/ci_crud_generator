@@ -94,15 +94,12 @@ class Crud_model extends CI_Model
 
     public function count_all()
     {
-        $custom_count = $this->_get_query_count_listado();
-        if ( ! empty($custom_count)) {
-            return $custom_count;
-        }
-        if ($this->_tiene_eliminado_logico === TRUE) {
-            $this->db->where(array("eliminado" => 0));
-        }
+        $this->_set_joins_sentencia();
         $this->_set_where_sentencia();
-        return $this->db->count_all_results(static::TABLA);
+        $alias_tabla = static::ALIAS;
+        $alias = ! empty($alias_tabla) ? " AS " . static::ALIAS : "";
+        $cant = $this->db->count_all_results(static::TABLA . $alias);
+        return $cant;
     }
 
     public function get_all()
