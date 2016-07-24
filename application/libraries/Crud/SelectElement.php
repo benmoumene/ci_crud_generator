@@ -21,13 +21,13 @@ class SelectElement extends AbstractHtmlElement
 
     public function render($name, $id = "")
     {
-        $options = $this->_render_options();
+        $options = $this->_render_options($name);
         return "<select name='inputs[{$name}]' id='{$id}'>"
             . "{$options}"
             . "</select>";
     }
 
-    protected function _render_options()
+    protected function _render_options($name)
     {
         if ( ! empty($this->_config)) {
             $options = $this->_config;
@@ -35,11 +35,15 @@ class SelectElement extends AbstractHtmlElement
 
             foreach ($options as $oDataOption) {
                 $data_option = (array) $oDataOption;
-                $selected_option = '';
                 if ((int) $data_option["selected"] === 1) {
                     $selected_option = $data_option["value"];
+                    break;
                 }
-                $options_to_render .= "echo option('{$data_option["value"]}', '{$data_option["text"]}', '{$selected_option}' ); " . PHP_EOL;
+            }
+            foreach ($options as $oDataOption) {
+                $data_option = (array) $oDataOption;
+                $elementa_data = 'element($data, "' . $name . '","' . $selected_option . '")';
+                $options_to_render .= "echo option('{$data_option["value"]}', '{$data_option["text"]}', {$elementa_data}); " . PHP_EOL;
             }
 
             $options_to_render .= "?>" . PHP_EOL;
