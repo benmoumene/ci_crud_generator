@@ -16,7 +16,7 @@ function ConfigSelect($row_columna) {
     this.bind_events = function () {
         var that = this;
         this.$modal.one('hidden.bs.modal.configSelect', function () {
-            this.reset_modal();
+            that.reset_modal();
         });
         this.$modal.find(".js-btn-guardar-cambios").one("click.GuardarConfig", function (e) {
             var dataConfig = that.options;

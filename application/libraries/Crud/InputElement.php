@@ -24,7 +24,7 @@ class InputElement extends AbstractHtmlElement
 
     }
 
-    public function _render($type, $name, $id = "")
+    protected function _render($type, $name, $id = "")
     {
         $id = !empty($id) ? $id : $name;
         return "<input type='{$type}' class='form-control' name='inputs[{$name}]' value='<?php echo element(\$data,'{$name}',''); ?>' id='{$id}' {$this->_attributes} />";
