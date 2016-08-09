@@ -78,7 +78,7 @@ abstract class Crud_controller extends CI_Controller
         if (empty($id)) {
             show_error("Debe especificar un identificador", 501);
         }
-        $this->_dataPagina["data"] = $this->modelo_entidad->get_by_pk($id);
+        $this->_dataPagina["data"] = array_merge($this->modelo_entidad->get_by_pk($id), $this->_dataPagina["data"]);
         $this->_dataLayout["contenido"] = $this->load->view($this->_entidad . "/form_{$this->_entidad}", $this->_dataPagina, TRUE);
         $this->load->view("layout/default/default", $this->_dataLayout);
     }
